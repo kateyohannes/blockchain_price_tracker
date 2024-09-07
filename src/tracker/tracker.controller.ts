@@ -8,7 +8,8 @@ export class TrackerController {
 
   @Get()
   async findAll() {
-    return await this.trackerService.findAll();
+    // return await this.trackerService.findAll();
+    return await this.trackerService.currentPrice();
   }
 
   @Get(':id')
