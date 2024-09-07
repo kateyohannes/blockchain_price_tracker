@@ -1,8 +1,7 @@
-
 services:
-  mysql:
+  db:
     image: mysql
-    container_name: mysql_nest
+    container_name: mysql_tracker
     env_file:
       - .env
     ports:
