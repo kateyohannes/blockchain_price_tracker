@@ -45,12 +45,14 @@ export class MailService {
     }
   }
 
-  @Cron(CronExpression.EVERY_30_SECONDS)
+  @Cron(CronExpression.EVERY_HOUR)
   async handleMessage() {
     const input: CreateMailDto = {
       from: { name: 'Yohannes Teshome', address: 'kateyohannes@gmail.com' },
-      recipients: [{ name: 'Gizework', address: 'gizeworkmarye16@gmail.com' }],
-      subject: 'Price Change: from CronJob',
+      recipients: [
+        { name: 'Hyperhire', address: 'hyperhire_assignment@hyperhire.in' },
+      ],
+      subject: 'Price Change',
       html: '<p>Price has increased by 20%</p>',
     };
     const response = await this.sendEmail(input);

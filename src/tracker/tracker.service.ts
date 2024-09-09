@@ -23,18 +23,15 @@ export class TrackerService {
       price: Number(usdPrice),
       coin: nativePrice.name,
     });
-    const data = await this.entityManager.save(input);
-    return data;
+    return await this.entityManager.save(input);
   }
 
   async findAll() {
-    const data = await this.trackerRepository.find();
-    return data;
+    return await this.trackerRepository.find();
   }
 
   async findOne(id: number) {
-    const data = await this.trackerRepository.findOneByOrFail({ id });
-    return data;
+    return await this.trackerRepository.findOneByOrFail({ id });
   }
 
   async datilyPriceList() {

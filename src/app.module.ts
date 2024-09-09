@@ -5,7 +5,7 @@ import { DatabaseModule } from './database/database.module';
 import { TrackerModule } from './tracker/tracker.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { MailService } from './mail/mail.service';
-import { MailController } from './mail/mail.controller';
+import { AlertModule } from './alert/alert.module';
 
 @Module({
   imports: [
@@ -14,8 +14,9 @@ import { MailController } from './mail/mail.controller';
     HttpModule,
     DatabaseModule,
     TrackerModule,
+    AlertModule,
   ],
-  controllers: [MailController],
+  controllers: [],
   providers: [MailService],
 })
 export class AppModule {}

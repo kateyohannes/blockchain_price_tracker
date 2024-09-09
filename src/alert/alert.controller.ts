@@ -1,8 +1,18 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { AlertService } from './alert.service';
 import { CreateAlertDto } from './dto/create-alert.dto';
 import { UpdateAlertDto } from './dto/update-alert.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Alert Api')
 @Controller('alert')
 export class AlertController {
   constructor(private readonly alertService: AlertService) {}
@@ -19,7 +29,11 @@ export class AlertController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.alertService.findOne(+id);
+    try {
+      return this.alertService.findOne(+id);
+    } catch (err) {
+      return err;
+    }
   }
 
   @Patch(':id')
