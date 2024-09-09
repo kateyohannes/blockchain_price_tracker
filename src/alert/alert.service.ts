@@ -10,6 +10,7 @@ import { CreateMailDto } from '../mail/dto/create-mail.dto';
 import { ConfigService } from '@nestjs/config';
 import Mail from 'nodemailer/lib/mailer';
 import { createTransport } from 'nodemailer';
+
 @Injectable()
 export class AlertService {
   constructor(
