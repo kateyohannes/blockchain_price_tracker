@@ -4,7 +4,6 @@ import { Tracker } from './entities/tracker.entity';
 import { EntityManager, Repository } from 'typeorm';
 import { CreateTrackerDto } from './dto/create-tracker.dto';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { ConfigService } from '@nestjs/config';
 import { MoralisService } from '../moralis/moralis.service';
 
 @Injectable()
@@ -13,19 +12,18 @@ export class TrackerService {
     @InjectRepository(Tracker)
     private trackerRepository: Repository<Tracker>,
     private readonly entityManager: EntityManager,
-    private readonly configService: ConfigService,
     private readonly moralisService: MoralisService,
   ) {}
 
-  @Cron(CronExpression.EVERY_10_SECONDS)
+  @Cron(CronExpression.EVERY_5_MINUTES)
   async handleCron() {
-    const data = await this.moralisService.fetchPrice();
-    console.log(data.raw);
-  }
-
-  async create(createTrackerDto: CreateTrackerDto) {
-    const tracker = new Tracker(createTrackerDto);
-    const data = await this.entityManager.save(tracker);
+    const response = await this.moralisService.fetchPrice();
+    const { nativePrice, usdPrice } = response.raw;
+    const input: CreateTrackerDto = new Tracker({
+      price: Number(usdPrice),
+      coin: nativePrice.name,
+    });
+    const data = await this.entityManager.save(input);
     return data;
   }
 
@@ -40,8 +38,7 @@ export class TrackerService {
   }
 
   async currentPrice() {
-    const response = this.moralisService.fetchPrice();
-
-    return response;
+    const response = await this.moralisService.fetchPrice();
+    return response.raw;
   }
 }

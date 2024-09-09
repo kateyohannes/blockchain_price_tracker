@@ -1,5 +1,5 @@
 export class CreateTrackerDto {
-  coind: string;
+  coin: string;
   price: number;
-  currency: string;
+  currency?: string;
 }

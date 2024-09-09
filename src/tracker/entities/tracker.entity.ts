@@ -14,7 +14,7 @@ export class Tracker {
   @Column()
   coin: string;
 
-  @Column()
+  @Column({ type: 'numeric', precision: 18, scale: 16 })
   price: number;
 
   @Column({ type: 'varchar', length: '5', default: 'USD' })
