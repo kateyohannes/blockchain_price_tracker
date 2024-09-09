@@ -10,6 +10,11 @@ export class TrackerController {
     return await this.trackerService.findAll();
   }
 
+  @Get('/daily')
+  async dailyPrice() {
+    return await this.trackerService.datilyPriceList();
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: string) {
     return await this.trackerService.findOne(+id);

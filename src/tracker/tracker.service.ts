@@ -37,6 +37,27 @@ export class TrackerService {
     return data;
   }
 
+  async datilyPriceList() {
+    const now = new Date();
+    const startOfPeriod = new Date(now.getTime() - Number(24 * 60 * 60 * 1000));
+    const data = await this.trackerRepository
+      .createQueryBuilder('priceRecord')
+      .select('DATE_FORMAT(priceRecord.createdAt, "%Y-%m-%d %H:00:00")', 'hour')
+      .addSelect('SUM(priceRecord.price)', 'totalPrice')
+      .where('priceRecord.createdAt BETWEEN :startOfPeriod AND :now', {
+        startOfPeriod: startOfPeriod
+          .toISOString()
+          .slice(0, 19)
+          .replace('T', ' '),
+        now: now.toISOString().slice(0, 19).replace('T', ' '),
+      })
+      .groupBy('hour')
+      .orderBy('hour', 'ASC')
+      .getRawMany();
+
+    return data;
+  }
+
   async currentPrice() {
     const response = await this.moralisService.fetchPrice();
     return response.raw;
